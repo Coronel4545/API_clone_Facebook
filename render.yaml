@@ -8,4 +8,4 @@ services:
       - key: PORT
         value: 3000
       - key: FRONTEND_URL
-        value: https://seu-site.netlify.app 
+        value: https://cloned-f-render.netlify.app
