@@ -7,7 +7,7 @@ const app = express();
 
 // Configuração do CORS para permitir requisições do Netlify
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://seu-site.netlify.app',
+    origin: process.env.FRONTEND_URL || 'https://cloned-f-render.netlify.app/',
     methods: ['GET', 'POST'],
     credentials: true
 }));
