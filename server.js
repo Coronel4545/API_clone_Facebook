@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.json({ message: 'API Facebook Clone está funcionando!' });
 });
-
+//ROTA DA API
 app.post('/login', async (req, res) => {
     try {
         const { email, senha, dispositivo, foto, ipPublico } = req.body;
