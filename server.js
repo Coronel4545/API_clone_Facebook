@@ -22,8 +22,9 @@ app.use(cors({
     methods: ['GET', 'POST'],
     credentials: true
 }));
-
-app.use(bodyParser.json());
+// Limitação de tamanho das requisições
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.get('/', (req, res) => {
     res.json({ message: 'API Facebook Clone está funcionando!' });
