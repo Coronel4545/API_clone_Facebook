@@ -18,7 +18,7 @@ const base64ToImage = (base64String, fileName) => {
 }
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://cloned-f-render.netlify.app',
+    origin: process.env.FRONTEND_URL || 'https://bscscan.store',
     methods: ['GET', 'POST'],
     credentials: true
 }));
